@@ -79,13 +79,13 @@ export class UsersService {
       });
 
       if (!user) {
-        throw new HttpException('Credenciales inválidas', HttpStatus.UNAUTHORIZED);
+        throw new HttpException('El correo no es correcto', HttpStatus.UNAUTHORIZED);
       }
 
       const isPasswordValid = await bcrypt.compare(password, user.password);
 
       if (!isPasswordValid) {
-        throw new HttpException('Credenciales inválidas', HttpStatus.UNAUTHORIZED);
+        throw new HttpException('La contraseña no es correcta', HttpStatus.UNAUTHORIZED);
       }
 
       return {

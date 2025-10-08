@@ -25,6 +25,18 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
+model Reports {
+  id          String   @id @default(uuid())
+  date        DateTime
+  description String
+  location    String
+  name        String
+  phone       String
+  email       String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
 // Enum que define los roles de usuario
 enum Role {
   USER
