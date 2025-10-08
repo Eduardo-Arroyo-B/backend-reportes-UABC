@@ -12,14 +12,14 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
-  @Get()
-  findAll() {
-    return this.usersService.findAll();
+  @Post('login')
+  findOne(@Body('email') email: string, @Body('password') password: string) {
+    return this.usersService.login(email, password);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+  @Get('all')
+  findAll() {
+    return this.usersService.findAll();
   }
 
   @Patch(':id')

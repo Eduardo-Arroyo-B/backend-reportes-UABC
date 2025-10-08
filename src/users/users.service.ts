@@ -70,8 +70,32 @@ export class UsersService {
   }
 
   // Servicio para obtener un usuario por su ID
-  async findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async login(email: string, password: string) {
+    try {
+      const user = await prisma.user.findUnique({
+        where: {
+          email,
+        },
+      });
+
+      if (!user) {
+        throw new HttpException('Credenciales inválidas', HttpStatus.UNAUTHORIZED);
+      }
+
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+
+      if (!isPasswordValid) {
+        throw new HttpException('Credenciales inválidas', HttpStatus.UNAUTHORIZED);
+      }
+
+      return {
+        status: HttpStatus.OK,
+        message: 'Login exitoso',
+        data: user,
+      }
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
